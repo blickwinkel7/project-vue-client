@@ -1,5 +1,24 @@
 <script>
+import { mapActions } from "pinia";
 import "../assets/style.css";
+import { useCounterStore } from "../stores/counter";
+
+export default {
+  data() {
+    return {
+      userInput: {
+        userLogin: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    ...mapActions(useCounterStore, ["login"]),
+    loginEvent(){
+      this.login(this.userInput)
+    }
+  },
+};
 </script>
 
 <template>
@@ -24,10 +43,11 @@ import "../assets/style.css";
                   <h3 class="mb-4">Sign In</h3>
                 </div>
               </div>
-              <form class="signin-form">
+              <form class="signin-form" @submit.prevent="loginEvent">
                 <div class="form-group mb-3">
                   <label class="label" for="email">User Name/ EMAIL</label>
                   <input
+                    v-model="userInput.userLogin"
                     type="text"
                     class="form-control"
                     placeholder="write here..."
@@ -37,6 +57,7 @@ import "../assets/style.css";
                 <div class="form-group mb-3">
                   <label class="label" for="password">Password</label>
                   <input
+                    v-model="userInput.password"
                     type="password"
                     class="form-control"
                     placeholder="Password"
